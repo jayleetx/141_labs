@@ -1,0 +1,24 @@
+---
+title: "Course Notes"
+output: html_notebook
+---
+
+### Introduction to Data
+
+First video talks about the dplyr package- will people know what this is? or what a package is?
+
+Listed definition of "ordinal variable" in video doesn't distinguish it from a non-ordered categorical variable
+
+First part of the course doesn't test on other questions, just code. You could use the multiple choice questions to ask what kinds of variables certain columns are. Alternatively, use the "storing the answer" technique to check this question like in the study identification slides.
+
+Typo in "Discretize a different variable" slide, says `num_char_at` where it should say `num_char_cat`.
+
+Clarity of the phrase "plot a vs. b"? This might just be my background, but every time I see this I map a to x and b to y, then it tells me I have to swap them.
+
+Not all multiple choice questions have an explanation of the answer after the fact, namely the sampling information questions.
+
+"Create a scatterplot" slide gives me an error message to use the `evals` dataset when it's being used. Can't find a way around it. When I run the given solution it continues to show "Incorrect submission".
+
+Structure of vectors? This might be good to talk about with the "factor" data type.
+
+Explanation of basic symbols like `<=` or `>=`, just for completeness' sake.
