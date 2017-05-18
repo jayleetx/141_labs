@@ -22,3 +22,9 @@ Not all multiple choice questions have an explanation of the answer after the fa
 Structure of vectors? This might be good to talk about with the "factor" data type.
 
 Explanation of basic symbols like `<=` or `>=`, just for completeness' sake.
+
+### Exploratory Data Analysis
+
+`ggplot2` has a handful of verbs that you kind of just throw out there, would it be efficient to explain these a little more? Or just leave them to be explored?
+
+Personally I really found it useful to learn all the `dplyr` syntax at once, but based on teaching code and stats techniques at the same time this might not make as much sense.
