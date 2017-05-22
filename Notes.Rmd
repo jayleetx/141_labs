@@ -1,6 +1,6 @@
 ---
 title: "Course Notes"
-output: html_notebook
+output: github_document
 ---
 
 ### Introduction to Data
