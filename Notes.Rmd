@@ -39,3 +39,10 @@ This one does a very good job of not being prescriptive. You really have to dive
 
 First couple times through the sampling process were confusing, but going through it step-by-step on the "Step-by-step through the permutation" slide really helped.
 
+
+
+### Other Notes
+
+Andrew says prereqs will be Intro to R course and possibly dplyr or ggplot course
+
+Comics comes from 538 package
