@@ -3,14 +3,14 @@ data()
 str()
 dplyr::glimpse()
 table()
-dataframe$column
+x$y
 dplyr::filter()
 x %>% y
 droplevels()
 x <- y
 x == y
 mean()
-(x <- y)
+x <- y
 dplyr::mutate()
 ifelse()
 median()
@@ -29,6 +29,7 @@ levels()
 x != y
 position = "dodge"
 ggplot2::theme()
+options()
 prop.table()
 ggplot2::ylab()
 position = "fill"
@@ -41,6 +42,8 @@ ggplot2::geom_density()
 ggplot2::geom_boxplot()
 ggplot2::coord_flip()
 ggplot2::facet_grid()
+ggplot2::xlim()
+ggplot2::ggtitle
 unique()
 x %in% y
 as.factor()
@@ -76,15 +79,19 @@ fitted.values()
 residuals()
 broom::augment()
 predict()
-
+df.residual()
+sqrt()
+var()
 
 names()
+ggplot2::xlab()
+ggplot2::ylab()
 ggplot2::geom_dotplot()
 ggplot2::geom_vline()
-nrow()
 quantile()
 dplyr::select()
 oilabs::rep_sample_n()
 as.table()
 data.frame()
 rbinom()
+x & y
