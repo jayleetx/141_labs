@@ -1,0 +1,158 @@
+---
+title: "Data"
+author: "Jay Lee"
+date: "5/22/2017"
+output: github_document
+---
+
+```{r include = F}
+library(knitr)
+library(openintro)
+library(tidyverse)
+library(forcats)
+library(oilabs)
+library(gapminder)
+opts_chunk$set(message = F)
+```
+
+
+Below each code output are the variables explicitly used in the exercises.
+
+## Introduction to Data
+
+### High school and beyond survey
+
+Mentioned as an example in videos, not used in analysis. From `openintro` package.
+
+```{r}
+data(hsb2)
+colnames(hsb2)
+```
+
+### Emails
+
+From `openintro` package.
+
+```{r}
+data(email50)
+colnames(email50)
+```
+
+`number`, `num_char`, `exclaim_mess`, `spam`
+
+### Gapminder
+
+From `gapminder` package.
+
+```{r}
+data(gapminder)
+colnames(gapminder)
+```
+
+### Berkeley grad school admissions
+
+Transformed from `UCBAdmissions` in `datasets`.
+
+```{r}
+data(UCBAdmissions)
+ucb_admit <- as.data.frame(UCBAdmissions)
+ucb_admit <- transform(ucb_admit[rep(1:nrow(ucb_admit), ucb_admit$Freq),-4])
+colnames(ucb_admit)
+```
+
+All variables used.
+
+### County info
+
+Mentioned as an example in videos, not used in analysis. From `openintro` package.
+
+```{r}
+data(county)
+colnames(county)
+```
+
+`name`, `state`
+
+### US Regions
+
+Transformed from `state` in `datasets`.
+
+```{r}
+us_regions <- cbind(as.data.frame(state.name),
+                    as.data.frame(state.region)) %>%
+  transmute(state = state.name,
+            region = fct_recode(state.region, "Midwest" = "North Central"))
+colnames(us_regions)
+```
+
+All variables used.
+
+### UT Austin course evals
+
+From `oilabs` package.
+
+```{r}
+data(evals)
+colnames(evals)
+```
+
+`score`, `rank`, `ethnicity`, `gender`, `language`, `age`, `cls_students`, `cls_level`, `cls_profs`, `cls_credits`, `bty_avg`, `pic_outfit`, `pic_color`
+
+## Exploratory Data Analysis
+
+### Comics dataset
+
+Adapted from [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/comic-characters)'s data.
+
+Full variable list: "name", "id", "align", "eye", "hair", "gender", "gsm", "alive", "appearances", "first_appear", "publisher"
+
+Variables used: `align`, `id`, `gender`, 
+
+### Pie dataset
+
+Only variable is "flavor", used for a pie chart and a bar graph.
+
+### Cars dataset
+
+`cars`
+
+Data source ???
+
+Full variable list: "name", "sports_car", "suv", "wagon", "minivan", "pickup", "all_wheel", "rear_wheel", "msrp", "dealer_cost", "eng_size", "ncyl", "horsepwr", "city_mpg", "hwy_mpg", "weight", "wheel_base", "length", "width"
+
+Variables used: `weight`, `hwy_mpg`, `pickup`, `city_mpg`, `suv`, `ncyl`, `eng_size`, `horsepwr`, `msrp`, `width`, `rear_wheel`
+
+### County public health
+
+`life`
+
+Mentioned as an example in videos, not used in analysis.
+
+Data source ???
+
+Full variable list: "state", "county", "expectancy", "income"
+
+Variables used: `expectancy`, `state`
+
+### Gapminder
+
+From `gapminder` package.
+
+```{r}
+data(gapminder)
+colnames(gapminder)
+```
+
+`continent`, `year`, `lifeExp`, `pop`
+
+### Full email data
+
+From `openintro` package.
+
+```{r}
+data(email)
+colnames(email)
+```
+
+`spam`, `num_char`, `exclaim_mess`, `image`, `attach`, `dollar`, `number`
+
