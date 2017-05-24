@@ -12,6 +12,7 @@ library(tidyverse)
 library(forcats)
 library(oilabs)
 library(gapminder)
+library(NHANES)
 opts_chunk$set(message = F)
 ```
 
@@ -102,21 +103,15 @@ colnames(evals)
 
 ### Comics dataset
 
-Adapted from [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/comic-characters)'s data.
+`comics`, adapted from [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/comic-characters)'s data.
 
 Full variable list: "name", "id", "align", "eye", "hair", "gender", "gsm", "alive", "appearances", "first_appear", "publisher"
 
 Variables used: `align`, `id`, `gender`, 
 
-### Pie dataset
-
-Only variable is "flavor", used for a pie chart and a bar graph.
-
 ### Cars dataset
 
-`cars`
-
-Data source ???
+`cars`, source unknown.
 
 Full variable list: "name", "sports_car", "suv", "wagon", "minivan", "pickup", "all_wheel", "rear_wheel", "msrp", "dealer_cost", "eng_size", "ncyl", "horsepwr", "city_mpg", "hwy_mpg", "weight", "wheel_base", "length", "width"
 
@@ -124,11 +119,7 @@ Variables used: `weight`, `hwy_mpg`, `pickup`, `city_mpg`, `suv`, `ncyl`, `eng_s
 
 ### County public health
 
-`life`
-
-Mentioned as an example in videos, not used in analysis.
-
-Data source ???
+`life`, source unknown. Mentioned as an example in videos, not used in analysis.
 
 Full variable list: "state", "county", "expectancy", "income"
 
@@ -156,3 +147,132 @@ colnames(email)
 
 `spam`, `num_char`, `exclaim_mess`, `image`, `attach`, `dollar`, `number`
 
+## Correlation and Regression
+
+### North Carolina birth info
+
+From `openintro` package.
+
+```{r}
+data(births)
+ncbirths <- births
+colnames(ncbirths)
+```
+
+`weeks`, `weight`, `mAge`
+
+### Mammals
+
+From `openintro` package.
+
+```{r}
+data(mammals)
+colnames(mammals)
+```
+
+`BodyWt`, `BrainWt`
+
+### 2010 baseball
+
+From `openintro` package.
+
+```{r}
+data(mlbBat10)
+colnames(mlbBat10)
+```
+
+`OBP`, `SLG`, `SB`, `HR`, `AB`
+
+### Body dimensions
+
+From `openintro` package.
+
+```{r}
+data(bdims)
+colnames(bdims)
+```
+
+`hgt`, `wgt`, `sex`
+
+### UK smoking
+
+From `openintro` package.
+
+```{r}
+data(smoking)
+colnames(smoking)
+```
+
+`age`, `amtWeekdays`
+
+### Anscombe regression data
+
+Transformed from `anscombe` in `datasets` package
+
+Full variable list: "id", "set", "x", "y"
+
+Variables used: `set`, `x`, `y`
+
+### Noise dataset
+
+`noise`, randomly generated normal values
+
+Full variable list: "x", "y", "z"
+
+Variables used: `x`, `y`
+
+### Galton data
+
+Source unknown, sets of `Galton_men` and `Galton_women` with the same variables
+
+Full variable list: "family", "father", "mother", "sex", "height", "nkids"
+
+Variables used: `height`, `father`, `mother`
+
+### Textbook prices
+
+Mentioned as an example in videos, not used in analysis. From `openintro` package.
+
+```{r}
+data(textbooks)
+colnames(textbooks)
+```
+
+`amazNew`, `uclaNew`
+
+## Foundations of Inference
+
+### NHANES
+
+Mentioned as an example in videos, not used in analysis. From `NHANES` package.
+
+```{r}
+data(NHANES)
+colnames(NHANES)
+```
+
+`Gender`, `HomeOwn`, `SleepHrsNight`, `SleepTrouble`, `HealthGen`
+
+### Gender discrimination
+
+`disc`, source unknown.
+
+Full list of variables: "promote", "sex"
+
+All variables used
+
+### Opportunity cost
+
+`opportunity`, source unknown.
+
+Full list of variables: "decision", "group"
+
+All variables used.
+
+### Polling data
+
+`all_polls`, source unknown.
+
+Full list of variables: "poll", "vote"
+
+All variables used.

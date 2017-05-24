@@ -118,21 +118,15 @@ Exploratory Data Analysis
 
 ### Comics dataset
 
-Adapted from [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/comic-characters)'s data.
+`comics`, adapted from [FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/comic-characters)'s data.
 
 Full variable list: "name", "id", "align", "eye", "hair", "gender", "gsm", "alive", "appearances", "first\_appear", "publisher"
 
 Variables used: `align`, `id`, `gender`,
 
-### Pie dataset
-
-Only variable is "flavor", used for a pie chart and a bar graph.
-
 ### Cars dataset
 
-`cars`
-
-Data source ???
+`cars`, source unknown.
 
 Full variable list: "name", "sports\_car", "suv", "wagon", "minivan", "pickup", "all\_wheel", "rear\_wheel", "msrp", "dealer\_cost", "eng\_size", "ncyl", "horsepwr", "city\_mpg", "hwy\_mpg", "weight", "wheel\_base", "length", "width"
 
@@ -140,11 +134,7 @@ Variables used: `weight`, `hwy_mpg`, `pickup`, `city_mpg`, `suv`, `ncyl`, `eng_s
 
 ### County public health
 
-`life`
-
-Mentioned as an example in videos, not used in analysis.
-
-Data source ???
+`life`, source unknown. Mentioned as an example in videos, not used in analysis.
 
 Full variable list: "state", "county", "expectancy", "income"
 
@@ -180,3 +170,187 @@ colnames(email)
     ## [21] "number"
 
 `spam`, `num_char`, `exclaim_mess`, `image`, `attach`, `dollar`, `number`
+
+Correlation and Regression
+--------------------------
+
+### North Carolina birth info
+
+From `openintro` package.
+
+``` r
+data(births)
+ncbirths <- births
+colnames(ncbirths)
+```
+
+    ## [1] "fAge"      "mAge"      "weeks"     "premature" "visits"    "gained"   
+    ## [7] "weight"    "sexBaby"   "smoke"
+
+`weeks`, `weight`, `mAge`
+
+### Mammals
+
+From `openintro` package.
+
+``` r
+data(mammals)
+colnames(mammals)
+```
+
+    ##  [1] "Species"     "BodyWt"      "BrainWt"     "NonDreaming" "Dreaming"   
+    ##  [6] "TotalSleep"  "LifeSpan"    "Gestation"   "Predation"   "Exposure"   
+    ## [11] "Danger"
+
+`BodyWt`, `BrainWt`
+
+### 2010 baseball
+
+From `openintro` package.
+
+``` r
+data(mlbBat10)
+colnames(mlbBat10)
+```
+
+    ##  [1] "name"     "team"     "position" "G"        "AB"       "R"       
+    ##  [7] "H"        "2B"       "3B"       "HR"       "RBI"      "TB"      
+    ## [13] "BB"       "SO"       "SB"       "CS"       "OBP"      "SLG"     
+    ## [19] "AVG"
+
+`OBP`, `SLG`, `SB`, `HR`, `AB`
+
+### Body dimensions
+
+From `openintro` package.
+
+``` r
+data(bdims)
+colnames(bdims)
+```
+
+    ##  [1] "bia.di" "bii.di" "bit.di" "che.de" "che.di" "elb.di" "wri.di"
+    ##  [8] "kne.di" "ank.di" "sho.gi" "che.gi" "wai.gi" "nav.gi" "hip.gi"
+    ## [15] "thi.gi" "bic.gi" "for.gi" "kne.gi" "cal.gi" "ank.gi" "wri.gi"
+    ## [22] "age"    "wgt"    "hgt"    "sex"
+
+`hgt`, `wgt`, `sex`
+
+### UK smoking
+
+From `openintro` package.
+
+``` r
+data(smoking)
+colnames(smoking)
+```
+
+    ##  [1] "gender"               "age"                  "maritalStatus"       
+    ##  [4] "highestQualification" "nationality"          "ethnicity"           
+    ##  [7] "grossIncome"          "region"               "smoke"               
+    ## [10] "amtWeekends"          "amtWeekdays"          "type"
+
+`age`, `amtWeekdays`
+
+### Anscombe regression data
+
+Transformed from `anscombe` in `datasets` package
+
+Full variable list: "id", "set", "x", "y"
+
+Variables used: `set`, `x`, `y`
+
+### Noise dataset
+
+`noise`, randomly generated normal values
+
+Full variable list: "x", "y", "z"
+
+Variables used: `x`, `y`
+
+### Galton data
+
+Source unknown, sets of `Galton_men` and `Galton_women` with the same variables
+
+Full variable list: "family", "father", "mother", "sex", "height", "nkids"
+
+Variables used: `height`, `father`, `mother`
+
+### Textbook prices
+
+Mentioned as an example in videos, not used in analysis. From `openintro` package.
+
+``` r
+data(textbooks)
+colnames(textbooks)
+```
+
+    ## [1] "deptAbbr" "course"   "ibsn"     "uclaNew"  "amazNew"  "more"    
+    ## [7] "diff"
+
+`amazNew`, `uclaNew`
+
+Foundations of Inference
+------------------------
+
+### NHANES
+
+Mentioned as an example in videos, not used in analysis. From `NHANES` package.
+
+``` r
+data(NHANES)
+colnames(NHANES)
+```
+
+    ##  [1] "ID"               "SurveyYr"         "Gender"          
+    ##  [4] "Age"              "AgeDecade"        "AgeMonths"       
+    ##  [7] "Race1"            "Race3"            "Education"       
+    ## [10] "MaritalStatus"    "HHIncome"         "HHIncomeMid"     
+    ## [13] "Poverty"          "HomeRooms"        "HomeOwn"         
+    ## [16] "Work"             "Weight"           "Length"          
+    ## [19] "HeadCirc"         "Height"           "BMI"             
+    ## [22] "BMICatUnder20yrs" "BMI_WHO"          "Pulse"           
+    ## [25] "BPSysAve"         "BPDiaAve"         "BPSys1"          
+    ## [28] "BPDia1"           "BPSys2"           "BPDia2"          
+    ## [31] "BPSys3"           "BPDia3"           "Testosterone"    
+    ## [34] "DirectChol"       "TotChol"          "UrineVol1"       
+    ## [37] "UrineFlow1"       "UrineVol2"        "UrineFlow2"      
+    ## [40] "Diabetes"         "DiabetesAge"      "HealthGen"       
+    ## [43] "DaysPhysHlthBad"  "DaysMentHlthBad"  "LittleInterest"  
+    ## [46] "Depressed"        "nPregnancies"     "nBabies"         
+    ## [49] "Age1stBaby"       "SleepHrsNight"    "SleepTrouble"    
+    ## [52] "PhysActive"       "PhysActiveDays"   "TVHrsDay"        
+    ## [55] "CompHrsDay"       "TVHrsDayChild"    "CompHrsDayChild" 
+    ## [58] "Alcohol12PlusYr"  "AlcoholDay"       "AlcoholYear"     
+    ## [61] "SmokeNow"         "Smoke100"         "Smoke100n"       
+    ## [64] "SmokeAge"         "Marijuana"        "AgeFirstMarij"   
+    ## [67] "RegularMarij"     "AgeRegMarij"      "HardDrugs"       
+    ## [70] "SexEver"          "SexAge"           "SexNumPartnLife" 
+    ## [73] "SexNumPartYear"   "SameSex"          "SexOrientation"  
+    ## [76] "PregnantNow"
+
+`Gender`, `HomeOwn`, `SleepHrsNight`, `SleepTrouble`, `HealthGen`
+
+### Gender discrimination
+
+`disc`, source unknown.
+
+Full list of variables: "promote", "sex"
+
+All variables used
+
+### Opportunity cost
+
+`opportunity`, source unknown.
+
+Full list of variables: "decision", "group"
+
+All variables used.
+
+### Polling data
+
+`all_polls`, source unknown.
+
+Full list of variables: "poll", "vote"
+
+All variables used.
