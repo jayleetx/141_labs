@@ -1,0 +1,61 @@
+---
+title: "Elections"
+author: "Jay Lee"
+date: "July 13, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+library(tidyr)
+library(ggplot2)
+setwd("/Users/jaylee/Desktop/SummerWork/other_data/election_precinct")
+```
+
+```{r load-join}
+abbrevs <- append(state.abb[!(state.abb %in%c("CA", "CO", "FL", "IN", "MI", "MO", "NV", "NJ", "NY", "OH", "OR", "UT", "WI"))], "DC")
+cols <- c("state", "year", "county", "precinct", "fips", "vtd", "cntyvtd", "precinct_code", "town", "ward", "parish", "electiondistrictbeat", "precinct_name", "g2012_USP_tv", "g2012_USP_dv", "g2012_USP_rv")
+
+small_cols <- c("state", "g2012_USP_tv", "g2012_USP_dv", "g2012_USP_rv")
+setwd("/Users/jaylee/Desktop/SummerWork/other_data/election_precinct")
+US2016 <- as.data.frame(matrix(nrow = 0, ncol = 4, dimnames = list(NULL, small_cols)))
+for (y in abbrevs) {
+  load(paste0(y, "_2012.RData"))
+#  assign(y, x)
+  assign(y, x %>%
+           select(small_cols))
+US2016 <- rbind(US2016, get(y))
+}
+US2016 <- US2016 %>%
+  rename(Dem = "g2012_USP_dv",
+         Rep = "g2012_USP_rv",
+         Total = "g2012_USP_tv")
+rm(x, y)
+```
+
+```{r tidy}
+US2016 <- US2016 %>%
+  transmute(state = state,
+            Dem = as.numeric(str_sub(as.character(Dem), 1, 1)),
+            Rep = as.numeric(str_sub(as.character(Rep), 1, 1)),
+            Total = as.numeric(str_sub(as.character(Total), 1, 1))) %>%
+  gather(key = party, value = digit, Rep, Dem, Total) %>%
+  filter(digit != 0)
+```
+
+```{r plot}
+# Bar chart
+ggplot(US2016, aes(x = digit, fill = party, color = party)) +
+  geom_bar(position = "dodge") +
+  scale_color_manual(values=c("blue", "red", "black")) +
+  scale_fill_manual(values=c("blue", "red", "black")) +
+  labs(title = "Total US Bar Chart")
+
+# Density plot
+ggplot(US2016, aes(x = digit, color = party)) +
+  geom_density() +
+  scale_color_manual(values=c("blue", "red", "black")) +
+  labs(title = "Total US Density Plot")
+```
