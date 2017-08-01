@@ -56,10 +56,11 @@ The data on Iran was collected from ____. The dataset contains 366 observations 
 
 ```{r}
 iran <- read_csv('iran.csv')
-norway <- read_csv('norway.csv')
 ```
 
 ## Elections
+
+### Iran, 2009
 
 1.  Add a column to the `iran` dataset with the first digit of the total legitimate vote count for each city. Show the dataset now has this column.
 
@@ -85,19 +86,19 @@ ggplot(iran, aes(x = digit)) +
   geom_bar()
 ```
 
-This might be due to election fraud, but it might just be a result of a small sample size. Try a similar method on data collected from Norway in **2978**, an election much less under scrutiny for fraud allegations.
-
-3.  Create a similar bar chart for the `norway` dataset.
-
-```{r}
-norway %>%
-  mutate(digit = as.numeric(str_sub(as.character(total_votes_cast), 1, 1))) %>%
-  ggplot(aes(x = digit)) +
-  geom_bar()
-```
-
-## US Elections
-
-The [OpenElections](openelections.net) project is obtaining and standardizing precinct-level results from the 2016 US presidential election, among other US elections. To get the data, search OpenElections' [GitHub page](https://github.com/openelections/) for your state and go to the "-source-" or "-data-" repository.
+This might be due to election fraud, but it might just be a result of a small sample size. Try a similar method on data collected from the 2016 US presidential election.
 
 
+### United States, 2016
+
+The [OpenElections](http://www.openelections.net) project is obtaining and standardizing precinct-level results from the 2016 US presidential election, among other US elections. To get the data, search OpenElections' [GitHub page](https://github.com/openelections/tracker/blob/master/state_status_2016.csv) and pick an election that is marked "CSV" or "baked raw".
+
+3. Pick a state and use this data to create a plot of that state's first digit distribution by precinct.
+
+4. Does the election you chose appear to fit the distribution better or worse than the Iran election?
+
+### Election Assessment
+
+5. Develop a quantitative marker to describe how well this election fits the ideal Benford's distribution. Show how you created it.
+
+6. Does this election perform better or worse than the Iran election, according to your marker?
