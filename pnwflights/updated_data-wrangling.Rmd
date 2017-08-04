@@ -1,0 +1,84 @@
+---
+title: "Data Wrangling"
+output:
+  html_document:
+    highlight: pygments
+    theme: cerulean
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+library(dplyr)
+library(ggplot2)
+library(oilabs)
+library(pnwflights14)
+```
+
+Recall from the last lab four elementary data operations:
+
+- `filter()`
+- `mutate()`
+- `summarize()`
+- `group_by()`
+
+This can be strung together in very powerful ways to help reveal the structure in your data (`arrange()` might be considered a helpful fifth operation).
+
+We're going to use a very similar data set as last lab but shift to a local context. Let's load the packages.
+
+```{r load-packages, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(oilabs)
+library(pnwflights14) # still saved locally as pnwflights14
+```
+
+The `pnwflights16-17` package has a data set called `flights` which contains *all* of the flights that left from Seattle-Tacoma International Airport and Portland International Airport from June 2016 to May 2017. Let's load that data:
+
+```{r}
+data(flights)
+```
+
+All of the following exercises require at least a bit of code for their answers.
+
+1.  How many total flights left from these airports in this timeframe?
+
+2.  What proportion of these flights left from Portland?
+
+3.  What is the most common destination for flights leaving Portland?
+
+4.  What is the most distant destination from Portland?
+
+5.  Using the airport nearest one of your hometowns, which day of the week and which airline seems best for flying there from Portland? Be clear on how you're defining *best*. (note that there is no explicit weekday column in this data set, but there is sufficient information to piece it together. The following line of code can be added to your pipeline to create that new column. It uses functions in the `lubridate` package, so be sure to load it in at the start of this exercise).
+
+```{r eval = FALSE}
+mutate(day_of_week = wday(ymd(paste(year, month, day, set = "-")), label = T))
+```
+
+
+6.  What is the tailnumber of the fastest plane that flew from one of these airports in this timeframe? Be sure to be clear how you're defining fastest.
+
+7.  **Challenge**: The plot below displays the relationship between the mean arrival 
+delay and the mean distance travelled by every plane in the data set. 
+It also shows the total number of flights made by each plane by the 
+size of the plotted circle. Please form a single chain that will 
+create this plot, starting with the raw data set. You will also want 
+to exclude the edge cases from your analysis, so focus on the
+planes that have logged more than 20 flights and flown an average
+distance of less than 2000 miles. The points can be made transparent by adding an argument to `geom_point()`: `alpha = .1`.
+
+```{r echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+flights %>%
+  group_by(tailnum) %>%
+  summarize(avg_delay = mean(arr_delay, na.rm = TRUE),
+            avg_dist = mean(distance, na.rm = TRUE),
+            n = n()) %>%
+  filter(n > 20,
+         avg_dist < 2000) %>%
+  ggplot(aes(x = avg_dist, y = avg_delay)) + 
+  geom_point(alpha = .1, aes(size = n))
+```
+
+
+
+
+
