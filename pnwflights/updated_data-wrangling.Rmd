@@ -11,66 +11,106 @@ output:
 knitr::opts_chunk$set(eval = FALSE)
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 library(oilabs)
-library(pnwflights14)
-data(flights)
+data(pnwflights)
 ```
 
-The `pnwflights16-17` package has a data set called `flights` which contains *all* of the flights that 
+The `oilabs` package has a data set called `pnwflights` which contains *all* of the flights that 
 left from Seattle-Tacoma International Airport and Portland International Airport from June 2016 to May 2017.
-We will generate simple graphical and numerical summaries of data on these flights and explore delay times.
+We will generate simple graphical and numerical summaries of data on these flights and explore mainly delay times.
 As this is a large data set, you'll also get to practice the indispensable skills of data processing 
 and subsetting.
 
 ```{r load-packages, message=FALSE}
 # library(devtools)
-# install_github(c("MYancheff/oilabs", "MYancheff/pnwflights16-17"))
+# install_github("MYancheff/oilabs")
 library(dplyr)
 library(ggplot2)
 library(oilabs)
-library(pnwflights14) # still saved locally as pnwflights14
-data(flights)
+data(pnwflights)
 ```
 
 To get a sense of what this data frame contains the codebook
 can be accessed by pulling up the help file:
 
 ```{r}
-?flights
+?pnwflights
 ```
 
 One of the variables refers to the carrier (i.e. airline) of the flight, which 
 is coded according to the following system.
 
 - `carrier`: Two letter carrier abbreviation.
-    + `9E`:           Endeavor Air Inc.
     + `AA`:      American Airlines Inc.
     + `AS`:        Alaska Airlines Inc.
     + `B6`:             JetBlue Airways
     + `DL`:        Delta Air Lines Inc.
-    + `EV`:    ExpressJet Airlines Inc.
     + `F9`:      Frontier Airlines Inc.
-    + `FL`: AirTran Airways Corporation
     + `HA`:      Hawaiian Airlines Inc.
-    + `MQ`:                   Envoy Air
+    + `NK`:        Spirit Airlines Inc.
     + `OO`:       SkyWest Airlines Inc.
     + `UA`:       United Air Lines Inc.
-    + `US`:             US Airways Inc.
     + `VX`:              Virgin America
     + `WN`:      Southwest Airlines Co.
-    + `YV`:          Mesa Airlines Inc.
+    
 
-All of the following exercises require at least a bit of code for their answers.
-
-1.  What proportion of the these flights left from Portland? What is their most common destination? 
+1.  What proportion of the flights left from Portland? What is their most common destination? 
 Most distant destination? 
 
+```{r echo = FALSE, eval = FALSE}
+# proportion
+pnwflights %>%
+  group_by(origin) %>%
+  summarise(n = n()) %>%
+  mutate(prop = n/sum(n))
+
+# common destination
+pnwflights %>% 
+  filter(origin == "PDX") %>%
+  group_by(dest) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+
+# most distant dest
+pnwflights %>% 
+  filter(origin == "PDX") %>%
+  arrange(desc(distance))
+```
+
 1.  Describe the distribution of departure delays for all flights using a histogram and appropriate summary statistics. 
+
+```{r echo = FALSE, eval = FALSE}
+ggplot(pnwflights, aes(x = dep_delay)) + geom_histogram(binwidth = 15)
+
+pnwflights %>%
+  summarise(med_delay = median(dep_delay, na.rm = T),
+            iqr_delay = IQR(dep_delay, na.rm = T))
+```
+
+1.  Mutate the data frame so that it includes a new variable that contains the 
+average speed, `avg_speed` traveled by the plane for each flight (in mph).
+Create a scatterplot of average speed vs. distance and describe the relationship.
+**Hint:** Average speed can be calculated as distance divided by
+number of hours of travel, and note that `air_time` is given in minutes.
+
+```{r echo = FALSE, eval = FALSE, message = FALSE, warning = FALSE}
+pnwflights <- pnwflights %>%
+  mutate(avg_speed = distance/(air_time/60))
+
+ggplot(pnwflights, aes(x = distance, y = avg_speed)) + geom_point()
+```
 
 1.  Create a dataframe that contains the median and interquartile range for departure delays, grouped by carrier.
 Which carrier has the least variable departure delays?
 
-1.  Create a dataframe that contains the average departure delay grouped by month. Which month seems to be the best for avoiding delays?
+```{r echo = FALSE, eval = FALSE}
+pnwflights %>%
+  group_by(carrier) %>%
+  summarise(med_delay = median(dep_delay, na.rm = TRUE), 
+            iqr_delay = IQR(dep_delay, na.rm = TRUE)) %>%
+  arrange(dep_delay_iqr)
+```
 
 1.  Using the airport nearest one of your hometowns, which day of the week and which airline seems best for 
 flying there from Portland? Be clear on how you're defining *best*. (note that there is no explicit weekday 
@@ -82,12 +122,30 @@ sure to load it in at the start of this exercise).
 mutate(day_of_week = wday(ymd(paste(year, month, day, set = "-")), label = T))
 ```
 
+```{r echo = FALSE, eval = FALSE}
+pnwflights %>%
+  mutate(day_of_week = wday(ymd(paste(year, month, day, set = "-")), label = T)) %>%
+  filter(origin == "PDX", dest == "LAX") %>%
+  group_by(day_of_week) %>%
+  summarise(med_delay = median(dep_delay, na.rm = T)) %>%
+  arrange(med_delay)
+```
 
-1.  Mutate the data frame so that it includes a new variable that contains the 
-average speed, `avg_speed` traveled by the plane for each flight (in mph).
-**Hint:** Average speed can be calculated as distance divided by
-number of hours of travel, and note that `air_time` is given in minutes.
-Create a scatterplot of average speed vs. distance and describe the relationship.
+1. Let's consider any flight which has a departure delay of less than five minutes to be "on time," and flights 
+that are delayed for more than 5 minutes to be actually "delayed." Given that, which month has the lowest proportion 
+of delayed flights? **Hint:** Create a new variable that takes "on_time" and "delayed" as values.
+
+```{r echo = FALSE, eval = FALSE}
+pnwflights %>%
+  mutate(dep_type = ifelse(dep_delay < 5, "on_time", "delayed")) %>%
+  group_by(month, dep_type) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  filter(!is.na(dep_type)) %>%
+  spread(key = dep_type, value = n) %>%
+  mutate(prop_on_time = on_time/(on_time + delayed)) %>%
+  arrange(desc(prop_on_time))
+```
 
 1.  The plot below displays the relationship between the mean arrival 
 delay and the mean distance traveled by every plane in the data set. 
@@ -100,7 +158,7 @@ distance of less than 2000 miles. The points can be made transparent
 by adding an argument to `geom_point()`: `alpha = .1`.
 
 ```{r echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-flights %>%
+pnwflights %>%
   group_by(tailnum) %>%
   summarize(avg_delay = mean(arr_delay, na.rm = TRUE),
             avg_dist = mean(distance, na.rm = TRUE),
