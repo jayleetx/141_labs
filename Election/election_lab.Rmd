@@ -9,9 +9,10 @@ output:
     toc_float: true
 ---
 
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, eval = FALSE)
+library(knitr)
+instructor <- TRUE
+knitr::opts_chunk$set(echo = instructor, eval = instructor)
 ```
 
 ## 2009 Iran Election
@@ -23,11 +24,11 @@ There are many methods, both quantitative and qualitative, to detect election fr
 
 Benford's law observes that in many naturally-occuring phenomena with a quantitative measurement, some patterns can be observed in the digits of that measurement. Specifically, the law states that the first digit of such observations, rather than being distributed uniformly between the numbers 1-9, takes a decreasing log distribution. The code and distribution for this are below. Investments with interest, populations of cities, and election results have all been observed by different groups to follow Benford's law.
 
-```{r echo = T, eval = T}
+```{r benford_code, echo = T}
 benfords_p <- data.frame(1:9, log10(1 + 1/1:9))
 ```
 
-```{r eval = T}
+```{r benford_plot eval = T}
 library(ggplot2)
 colnames(benfords_p) <- c("digit", "prop")
 ggplot(benfords_p, aes(x = digit, y = prop)) +
@@ -42,9 +43,7 @@ One purported method of detecting election fraud, then, is seeing if the first d
 
 For this lab we will read in the data using the `readr` package, explore it using the `dplyr` package and visualize it using the `ggplot2` package for data visualization. The data can be found FILL IN HERE for later storage.
 
-Let's load the packages.
-
-```{r load-packages, message=FALSE}
+```{r load-packages}
 library(readr)
 library(dplyr)
 library(ggplot2)
@@ -54,8 +53,9 @@ library(ggplot2)
 
 The data on Iran was collected from ____. The dataset contains 366 observations of 9 variables, where every row is a city. The first two variables identify the province and city the vote totals come from, the next four give vote totals for the four candidates (Mahmoud Ahmadinejad, Mohsen Rezaee, Mehdi Karroubi, and Mir-Hossein Mousavi), and the final three give total and procedural vote totals. 
 
-```{r}
+```{r load_iran}
 iran <- read_csv('iran.csv')
+load(iran)
 ```
 
 ## Elections
@@ -67,12 +67,12 @@ iran <- read_csv('iran.csv')
 
 Hint: To extract a subset of a string, try the `stringr::str_sub` command. For example, to pull "FIRST" from "FIRST TO LAST" we would run:
 
-```{r echo = T}
+```{r hint, echo = T}
 library(stringr)
 str_sub(string = "FIRST TO LAST", start = 1, end = 5)
 ```
 
-```{r}
+```{r solution1}
 library(stringr)
 iran <- iran %>%
   mutate(digit = as.numeric(str_sub(as.character(legitimate_votes), 1, 1)))
@@ -81,7 +81,7 @@ str(iran)
 
 2.  Create a bar plot like the one above, showing the frequencies of first digits in the total vote count.
 
-```{r}
+```{r solution2}
 ggplot(iran, aes(x = digit)) +
   geom_bar()
 ```
@@ -93,12 +93,23 @@ This might be due to election fraud, but it might just be a result of a small sa
 
 The [OpenElections](http://www.openelections.net) project is obtaining and standardizing precinct-level results from the 2016 US presidential election, among other US elections. To get the data, search OpenElections' [GitHub page](https://github.com/openelections/tracker/blob/master/state_status_2016.csv) and pick an election that is marked "CSV" or "baked raw".
 
-3. Pick a state and use this data to create a plot of that state's first digit distribution by precinct.
+#### Alternate Method:
+
+Find a state in the county dataset, `us`, and work with that.
+
+```{r alternate_load}
+load(us)
+```
+
+
+3. Pick a state and use this data to create a plot of that state's first digit distribution by precinct. If no "total vote" equivalent exists, create one from candidate vote totals.
 
 4. Does the election you chose appear to fit the distribution better or worse than the Iran election?
 
 ### Election Assessment
 
 5. Develop a quantitative marker to describe how well this election fits the ideal Benford's distribution. Show how you created it.
+
+
 
 6. Does this election perform better or worse than the Iran election, according to your marker?
