@@ -79,7 +79,7 @@ str_sub(string = "FIRST TO LAST", start = 1, end = 5)
 ```{r solution1}
 library(stringr)
 iran <- iran %>%
-  mutate(digit = as.numeric(str_sub(as.character(legitimate_votes), 1, 1)))
+  mutate(digit = as.numeric(str_sub(as.character(ahmadinejad), 1, 1)))
 str(iran)
 ```
 
