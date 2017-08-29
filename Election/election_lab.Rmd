@@ -42,6 +42,34 @@ ggplot(benfords_p, aes(x = digit, y = prop)) +
   geom_bar(stat = "identity")
 ```
 
+```{r simulation}
+# Talk about how this distribution is simulated
+
+library(dplyr)
+library(ggplot2)
+set.seed(7000)
+n_precincts <- 5000
+precinct_size <- exp(rpois(n = n_precincts, 
+                           lambda = 5)) %>%
+  jitter() %>% round() %>% abs()
+set.seed(420)
+sim_vote <- rbinom(n_precincts, 
+                       size = precinct_size, 
+                       prob = runif(n_precincts))
+sim_vote <- data.frame(precinct_size, sim_vote) %>%
+  filter(sim_vote > 0) %>%
+  mutate(digit = as.numeric(stringr::str_sub(as.character(sim_vote), 1, 1)))
+ggplot(sim_vote, aes(x = digit)) +
+  geom_bar()
+
+sim_count <- sim_vote %>% count(digit) %>%
+  mutate(sim_prop = n / sum(n)) %>%
+  left_join(benfords_p, by = "digit") %>%
+  mutate(chi_sq = (sim_prop - prop)^2 / prop)
+chi_sq_sim <- nrow(sim_count) * sum(sim_count$chi_sq)
+chi_sq_sim
+```
+
 One purported method of detecting election fraud, then, is seeing if the first digit of the results for each reporting region fits the distribution specified by Benford's law. Try this out with the Iran data.
 
 ## Getting Started
@@ -70,7 +98,6 @@ data(iran)
 ### Iran, 2009
 
 1.  Add a column to the `iran` dataset with the first digit of the votes cast for the winner, Mahmoud Ahmadinejad. Show the dataset now has this column.
-
 
 Hint: To extract a subset of a string by index (position), try the `stringr::str_sub` command. For example, to pull "FIRST" from "FIRST TO LAST" we would run:
 
