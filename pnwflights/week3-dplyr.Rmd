@@ -10,8 +10,8 @@ output:
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(eval = FALSE)
 library(dplyr)
-library(ggplot2)
 library(tidyr)
+library(ggplot2)
 library(oilabs)
 data(pnwflights)
 ```
@@ -23,9 +23,8 @@ As this is a large data set, you'll also get to practice the indispensable skill
 and subsetting.
 
 ```{r load-packages, message=FALSE}
-# library(devtools)
-# install_github("MYancheff/oilabs")
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(oilabs)
 data(pnwflights)
@@ -55,29 +54,6 @@ is coded according to the following system.
     + `WN`:      Southwest Airlines Co.
     
 
-1.  What proportion of the flights left from Portland? What is their most common destination? 
-Most distant destination? 
-
-```{r echo = FALSE, eval = FALSE}
-# proportion
-pnwflights %>%
-  group_by(origin) %>%
-  summarise(n = n()) %>%
-  mutate(prop = n/sum(n))
-
-# common destination
-pnwflights %>% 
-  filter(origin == "PDX") %>%
-  group_by(dest) %>%
-  summarise(n = n()) %>%
-  arrange(desc(n))
-
-# most distant dest
-pnwflights %>% 
-  filter(origin == "PDX") %>%
-  arrange(desc(distance))
-```
-
 1.  Describe the distribution of departure delays for all flights using a histogram and appropriate summary statistics. 
 
 ```{r echo = FALSE, eval = FALSE}
@@ -99,6 +75,29 @@ pnwflights <- pnwflights %>%
   mutate(avg_speed = distance/(air_time/60))
 
 ggplot(pnwflights, aes(x = distance, y = avg_speed)) + geom_point()
+```
+
+1.  What proportion of the flights left from Portland? What is their most common destination? 
+Most distant destination? 
+
+```{r echo = FALSE, eval = FALSE}
+# proportion
+pnwflights %>%
+  group_by(origin) %>%
+  summarise(n = n()) %>%
+  mutate(prop = n/sum(n))
+
+# common destination
+pnwflights %>% 
+  filter(origin == "PDX") %>%
+  group_by(dest) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+
+# most distant dest
+pnwflights %>% 
+  filter(origin == "PDX") %>%
+  arrange(desc(distance))
 ```
 
 1.  Create a dataframe that contains the median and interquartile range for departure delays, grouped by carrier.
@@ -168,8 +167,3 @@ pnwflights %>%
   ggplot(aes(x = avg_dist, y = avg_delay)) + 
   geom_point(alpha = .1, aes(size = n))
 ```
-
-
-
-
-
