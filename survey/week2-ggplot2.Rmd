@@ -143,8 +143,8 @@ your personal estimates?
 p + xlim(-1, 5) + ylim(-1, 5) + labs(x = "something", y = "something else")
 ```
 
-```{r}
-# shill for ggthemes and purely aesthetic options
+```{r echo = FALSE}
+# talk about ggthemes and other purely aesthetic options
 ```
 
 ## More Practice
@@ -161,14 +161,18 @@ least one more map 3 or more variables. Describe any trends/patterns discovered.
 (Hint: The settings used for geom_smooth() are `method` and `se`)
 
 ```{r echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-ggplot(survey141, aes(x = economic, y = social, color = gender)) + 
+plotdata <- survey141 %>% filter(hogwarts == "Ravenclaw" |
+                                 hogwarts == "Hufflepuff" | 
+                                 hogwarts == "Slytherin" |
+                                 hogwarts == "Gryffindor")
+ggplot(plotdata, aes(x = economic, y = social, color = hogwarts)) + 
   geom_point(position = "jitter") + 
   geom_smooth(method = "lm", se = FALSE) + 
   xlim(0,10) +
   ylim(0,10) + 
-  labs(title = "Political Views and Gender", 
+  labs(title = "Political Views and Class Ranking", 
        subtitle = "1 - Extremely Liberal, 10 - Extremely Conservative", 
        x = "Economic Views",
        y = "Social Views",
-       color = "Gender Identity")
+       color = "Class Ranking")
 ```

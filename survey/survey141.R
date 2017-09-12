@@ -2,8 +2,8 @@
 
 library(readr)
 
-survey <- read_csv("survey/Math 141 Survey.csv", skip = 2, col_names = FALSE) %>% select(2, 4:36)
-questions <- c("gender", "social", "economic", "diet", "college_app", "reedie_social", "reedie_economic", 
+survey <- read_csv("survey/Math 141 Survey.csv", skip = 2, col_names = FALSE) %>% select(4:36)
+questions <- c("social", "economic", "diet", "college_app", "reedie_social", "reedie_economic", 
                "study", "year", "commons", "transportation", "division", "tradition", "awkward", "technology", 
                "historian", "alcohol", "reedie_alcohol", "marijuana", "reedie_marijuana", "social_media", 
                "coffee_tea", "computer", "season", "thai", "ac", "hogwarts", "beach_mountain", "donut", 
