@@ -99,7 +99,7 @@ data(iran)
 
 1.  Add a column to the `iran` dataset with the first digit of the votes cast for the winner, Mahmoud Ahmadinejad. Show the dataset now has this column.
 
-Hint: To extract a subset of a string by index (position), try the `stringr::str_sub` command. For example, to pull "FIRST" from "FIRST TO LAST" we would run:
+Hint: To change numbers into strings and vice versa, look at the documentation for the functions `as.numeric` and `as.character`. To extract a subset of a string by index (position), try the `stringr::str_sub` command. For example, to pull "FIRST" from "FIRST TO LAST" we would run:
 
 ```{r hint, echo = T}
 library(stringr)
