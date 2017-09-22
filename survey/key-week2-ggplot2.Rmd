@@ -1,0 +1,75 @@
+---
+title: 'Key: Data Visualization'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(oilabs)
+library(tidyverse)
+```
+
+```{r}
+data(survey141)
+```
+
+### Exercise 1
+
+```{r}
+ggplot(survey141, aes(x = college_app)) + geom_density()
+summary(survey141$college_app)
+```
+
+The distribution is right skewed with both a median and mean of 8 colleges applied to, and an IQR of 5 colleges.
+
+### Exercise 2
+
+```{r}
+filter(survey141, computer == "PC" | computer == "Mac") %>%
+  ggplot(aes(x = computer, y = first_kiss)) + geom_boxplot()
+```
+
+PC users have a less variable range of age of first kiss than Mac users, and the median value for PC users is slightly lower than Mac users. 
+
+### Exercise 3
+
+```{r}
+p <- ggplot(survey141, aes(x = alcohol, y = marijuana)) + geom_point(position = "jitter")
+p
+```
+
+### Exercise 4
+
+```{r}
+p + xlim(-.5, 4) + ylim(-.5, 4) + labs(x = "Self Reported Average Weekly Alcohol Usage", y = "Self Reported Average Weekly Marijuana Usage")
+```
+
+There does not seem to be a relationship between the two. Many people had high values for `alcohol` but zero or close to zero values for `marijuana`, and this is true in the reverse direction for fewer cases. There are also those who do have similar values for both variables, with most people having values of around zero.
+
+Answers will vary for how this compares to personal estimates.
+
+### Exercise 5
+
+Answers will vary. Things to check:
+
+1. That the plots render correctly
+
+2. That the filtered data is actually used in the ggplot (some may apply a filter but then use the unaltered `survey141` data)
+
+3. That any descriptions of the plots are reasonable
+
+### Exercise 6
+
+```{r}
+ggplot(survey141, aes(x = economic, y = social, color = year)) + 
+  geom_point(position = "jitter") + 
+  geom_smooth(method = "lm", se = FALSE) + 
+  xlim(0,10) +
+  ylim(0,10) + 
+  labs(title = "Political Views and Year", 
+       subtitle = "1 - Extremely Liberal, 10 - Extremely Conservative", 
+       x = "Economic Views",
+       y = "Social Views",
+       color = "Year")
+```
+
