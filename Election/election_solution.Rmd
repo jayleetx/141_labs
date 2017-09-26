@@ -11,7 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(knitr)
-instructor <- FALSE
+instructor <- TRUE
 knitr::opts_chunk$set(echo = instructor, eval = instructor)
 ```
 
@@ -155,39 +155,17 @@ ggplot(ND, aes(x = digit)) +
 
 ### Election Assessment
 
-5. Develop a quantitative marker to describe how well this election fits the ideal Benford's distribution. Show how you created it.
+5. Pick which one of the following expressions will create the best quantitative marker to describe how well an elections fits the ideal Benford's marker. $b_i$ represents the level of the Benford's distribution for the $i$th digit, and $x_i$ represents the same for the data being compared.
 
-**BONUS**: Normalize this measure (range from -1 to 1) so we can compare between states. Try using proportions.
+* $\sum_{i=1}^9|b_i-x_i| \div 9$ (a)
 
-```{r solution5}
-# Example: some kind of chi-squared marker, created manually?
-ND_count <- ND %>% count(digit) %>%
-  mutate(nd_prop = n / sum(n)) %>%
-  left_join(benfords_p, by = "digit") %>%
-  mutate(chi_sq = (nd_prop - prop)^2 / prop)
-chi_sq_ND <- nrow(ND_count) * sum(ND_count$chi_sq)
-chi_sq_ND
-```
+* $\sum_{i=1}^9(b_i-x_i)^2$ (b)
 
-6. Does this election fit the Benford's distribution better or worse than the Iran election, according to your marker?
+* $\sum_{i=1}^9(b_i-x_i)$ (c)
 
-```{r solution6}
-iran_count <- iran %>% count(digit) %>%
-  mutate(iran_prop = n / sum(n)) %>%
-  left_join(benfords_p, by = "digit") %>%
-  mutate(chi_sq = (iran_prop - prop)^2 / prop)
-chi_sq_iran <- nrow(iran_count) * sum(iran_count$chi_sq)
-chi_sq_iran
+* $\sum_{i=1}^9(b_i-x_i)^3$ (d)
 
-totals <- iran_count %>%
-  left_join(ND_count, by = "digit") %>%
-  select(digit, nd_prop, iran_prop, prop.x) %>%
-  tidyr::gather(key = area, value = prop, -digit)
+* $\sum_{i=1}^9|b_i-x_i|$ (e)
 
-ggplot(totals, aes(x = digit, y = prop, fill = area)) +
-  geom_bar(position = "dodge", stat = "identity")
-ggplot(totals, aes(x = digit, y = prop, color = area)) +
-  geom_density(stat = "identity")
 
-```
-
+6. Use the expression you chose to evaluate whether your state's election or Iran's election is closer to the ideal Benford's distribution.
