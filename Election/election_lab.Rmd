@@ -1,0 +1,103 @@
+---
+title: "Benford's Law"
+output:
+  html_document:
+    css: ../lab.css
+    highlight: pygments
+    theme: cerulean
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 2009 Iran Election
+
+On June 12 2009, the Republic of Iran held an election where President Mahmoud Ahmadinejad sought re-election against three challengers. When it was announced that Ahmadinejad had won with 62% of the vote, there were widespread allegations of election fraud.
+There are many methods, both quantitative and qualitative, to detect election fraud. In this lab we will explore just one proposed method.
+
+## Benford's Law
+
+Benford's law observes that in many naturally-occuring phenomena with a quantitative measurement, some patterns can be observed in the digits of that measurement. Specifically, the law states that the first digit of such observations, rather than being distributed uniformly between the numbers 1-9, takes a decreasing log distribution. The code and plotted distribution for this are below. Investments with interest, populations of cities, and election results have all been observed by different groups to follow Benford's law.
+
+```{r benford_code}
+benfords_p <- data.frame(1:9, log10(1 + 1/1:9))
+```
+
+```{r benford_plot, echo = F}
+library(ggplot2)
+colnames(benfords_p) <- c("digit", "prop")
+ggplot(benfords_p, aes(x = digit, y = prop)) +
+  geom_bar(stat = "identity")
+```
+
+One purported method of detecting election fraud, then, is seeing if the first digit of the results for each reporting region fits the distribution specified by Benford's law. Try this out with the Iran data.
+
+## Getting Started
+
+### Load packages
+
+For this lab we will read in the data using the `readr` package, explore it using the `dplyr` package and visualize it using the `ggplot2` package for data visualization. The data can be found in the `oilabs` package.
+
+```{r load-packages, message = F}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(oilabs)
+```
+
+### Data
+
+The data on Iran was collected from ____. The dataset contains 366 observations of 9 variables, where every row is a city. The first two variables identify the province and city the vote totals come from, the next four give vote totals for the four candidates (Mahmoud Ahmadinejad, Mohsen Rezaee, Mehdi Karroubi, and Mir-Hossein Mousavi), and the final three give total and procedural vote totals. 
+
+```{r load_iran, warning = F}
+data(iran)
+```
+
+## Elections
+
+### Iran, 2009
+
+1.  Add a column to the `iran` dataset with the first digit of the votes cast for the winner, Mahmoud Ahmadinejad. Show the dataset now has this column.
+
+Hint: To change numbers into strings and vice versa, look at the documentation for the functions `as.numeric` and `as.character`. To extract a subset of a string by index (position), try the `stringr::str_sub` command. For example, to pull "FIRST" from "FIRST TO LAST" we would run:
+
+```{r hint, echo = T}
+library(stringr)
+str_sub(string = "FIRST TO LAST", start = 1, end = 5)
+```
+
+2.  Create a bar plot like the one above, showing the frequencies of first digits in the total vote count. Does this plot appear to match the ideal Benford's distribution?
+
+This result might be due to election fraud, but it might just be a result of a small sample size or other innocent factors. Try a similar method on data collected from the 2016 US presidential election.
+
+***
+
+### United States, 2016
+
+The [OpenElections](http://www.openelections.net) project is obtaining and standardizing precinct-level results from the 2016 US presidential election, among other US elections. To get the data, search OpenElections' [GitHub page](https://github.com/openelections/tracker/blob/master/state_status_2016.csv) and pick an election that is marked "CSV" or "baked raw".
+
+3. Pick a state and use this data to create a plot of that state's first digit distribution by precinct. Use the number of votes cast for Hillary Clinton in each precinct. Make sure you remove rows for "total" counts if your state has them.
+
+4. Does the election you chose appear to fit the distribution better or worse than the Iran election?
+
+
+### Election Assessment
+
+5. Pick which one of the following expressions will create the best quantitative marker to describe how well an elections fits the ideal Benford's marker. $b_i$ represents the level of the Benford's distribution for the $i$th digit, and $x_i$ represents the same for the data being compared.
+
+* $\sum_{i=1}^9|b_i-x_i| \div 9$ (a)
+
+* $\sum_{i=1}^9(b_i-x_i)^2$ (b)
+
+* $\sum_{i=1}^9(b_i-x_i)$ (c)
+
+* $\sum_{i=1}^9(b_i-x_i)^3$ (d)
+
+* $\sum_{i=1}^9|b_i-x_i|$ (e)
+
+
+6. Use the expression you chose to evaluate whether your state's election or Iran's election is closer to the ideal Benford's distribution.
